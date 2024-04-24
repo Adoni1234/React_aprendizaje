@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ContainerLayaout } from "./utilis/layout"
+import { SetSessionStoreforCliente } from "./utilis/Utilitis";
 
 
 export function ClientePage(){
@@ -51,10 +52,12 @@ export function ClientePage(){
         LastName: formData.lastName
       };
       setArray([...array, newClient]);
+      SetSessionStoreforCliente([...array, newClient])
     };
 
+
     const handleSubmit = (event) => {
-      event.preventDefault();
+      event.preventDefault()
     
       if(validateForm()) { // Llama a la función validateForm
         alert("Formulario válido");
@@ -65,7 +68,7 @@ export function ClientePage(){
       }
     };
 
-    const  edit = (data, index) => {
+    const edit = (data, index) => {
         formData.name = data.name
         formData.lastName = data.LastName
         setIsEditing(true)
