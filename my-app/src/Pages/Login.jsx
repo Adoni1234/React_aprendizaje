@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { get_session_login } from "../components/utilis/Utilitis";
 
 export function Login() {
      
@@ -38,9 +39,14 @@ export function Login() {
 
     const handleSubmit = (event) =>{
         event.preventDefault();
-
+       const Session =  get_session_login()
         if(ValidateFormData()){
+          if(Session[0] === FormData.username && Session[1] === FormData.password){
             alert('Datos Validos')
+            window.location.href = 'home'
+          }else{
+            alert('Datos invalidos')
+          }
         }else{
             alert('formulario invalido')
         }

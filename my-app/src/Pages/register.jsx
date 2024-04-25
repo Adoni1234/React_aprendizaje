@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SetSessionStore } from "../components/utilis/Utilitis";
 
 export function Register() {
     const [FormData, setFormData] = useState({
@@ -8,9 +9,12 @@ export function Register() {
         error : ''
     })
 
+    const [confirmarContraseña, SetConfirmarContraseña] = useState('');
+    const SetConfinPass = (event) => {
+      SetConfirmarContraseña(event.target.value)
+    }
     const  handleChange = (event) => {
         const {name , value} = event.target
-
         setFormData((prevData) => ({
             ...prevData, 
             [name] : value,
@@ -22,7 +26,7 @@ export function Register() {
     }
 
     const ValidateForm = () => {
-        const error = {}
+      const error = {}
 
       if(!FormData.username){
          error.username = 'Username requiered'
@@ -42,7 +46,13 @@ export function Register() {
         event.preventDefault()
 
         if(ValidateForm()){
-            alert('Formulario valido')
+          if(confirmarContraseña === FormData.password) {
+            SetSessionStore(FormData, 'login')
+            window.location.href = '/';
+            alert('Registro Exitoso')
+          }else{
+            alert('password diferentes') 
+          }
         }else{
             alert('Formulario Invalidos')
         }
@@ -110,6 +120,8 @@ export function Register() {
                   Confirmar contraseña
                 </label>
                 <input
+                  onChange={SetConfinPass}
+                  value={confirmarContraseña}
                   type="password"
                   id="confirmarContraseña"
                   name="confirmarContraseña"
