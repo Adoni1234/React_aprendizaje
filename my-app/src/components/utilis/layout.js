@@ -27,7 +27,9 @@ export function ContainerLayaout() {
                     <Link to="/suma" className="text-xl font-bold mr-6">Suma</Link>
                     <Link to="/con" className="text-xl font-bold mr-6" >Cronometro</Link>
                     <Link to="/cliente" className="text-xl font-bold mr-6">Cliente</Link>
+                    <Link to="/api" className="text-xl font-bold mr-6">Conexion Api</Link>
                     <Link onClick={closeSession} to="/" className="text-xl font-bold">Cerrar session</Link>
+                    
                 </div>
                 <h2 className="text-xl font-bold mr-6">{username}</h2>
             </div>

@@ -8,7 +8,7 @@ export function SetSessionStore(list_object, name) {
 
 export function get_session_store(name){
    const session = sessionStorage.getItem(name)
-    return session
+   return session
 }
 
 export function get_session_login(){

@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ContainerLayaout } from "./utilis/layout"
-import { SetSessionStoreforCliente } from "./utilis/Utilitis";
+import { SetSessionStoreforCliente, get_session_store } from "./utilis/Utilitis";
 
 
 export function ClientePage(){
@@ -13,6 +13,9 @@ export function ClientePage(){
       name : "",
       lastName : "",
       error : {}
+    })
+    useEffect(() => {
+      GetData()
     })
 
     const handleChange = (event) => {
@@ -27,6 +30,10 @@ export function ClientePage(){
         }
       }));
     };
+    const GetData = () =>{
+      const newArray = get_session_store('Client')
+      setArray(JSON.parse(newArray))
+    }
 
     const validateForm = () => {
       const error = {};
@@ -59,7 +66,7 @@ export function ClientePage(){
     const handleSubmit = (event) => {
       event.preventDefault()
     
-      if(validateForm()) { // Llama a la función validateForm
+      if(validateForm()) {
         alert("Formulario válido");
       (isEditing) ? modify(): SetArray()
       FormReset()

@@ -8,6 +8,7 @@ import { CronómetroPage } from './components/cronómetro';
 import { ClientePage } from './components/cliente';
 import { Login } from './Pages/Login';
 import { Register } from './Pages/register';
+import { PageApi } from './Pages/PageApi';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="con" element={<CronómetroPage />} />
           <Route path="cliente" element={<ClientePage />} />
           <Route path="register" element={<Register />} />
+          <Route path="api" element={<PageApi />} />
         </Routes>
       </Router>
     </div>
