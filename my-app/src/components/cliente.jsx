@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { ContainerLayaout } from "./utilis/layout"
 import { SetSessionStoreforCliente, get_session_store } from "./utilis/Utilitis";
+import { DeleteClient } from "../services/Service";
 
 
 export function ClientePage(){

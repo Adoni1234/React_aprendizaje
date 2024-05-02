@@ -1,4 +1,3 @@
-import React from "react";
 
 const Modal = ({ isOpen, onClose, onSubmit, formData, handleChange, origins }) => {
   return (

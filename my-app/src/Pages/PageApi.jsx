@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ContainerLayaout } from "../components/utilis/layout";
-import { CreateClient, GetData } from "../services/Service";
+import { CreateClient, DeleteClient, EditClient, GetData } from "../services/Service";
 import Modal from "../components/Modal"; 
 
 export function PageApi() {
   const data = GetData();
+  const [id, setid] =  useState(0)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,10 +15,8 @@ export function PageApi() {
     error: {},
   });
  
-  const is= {
-    creating : false,
-    editing : false
-  }
+  const [editing, setEditing] = useState(false)
+  const [creating, setCreating] = useState(false)
 
   const [isModalOpen, setIsModalOpen] = useState(false); 
   const [providen, setProviden] = useState(''); 
@@ -34,9 +33,14 @@ export function PageApi() {
       },
     }));
   };
+    
+  const DeleteCliente = (id) => {
+    DeleteClient(id)
+ }
 
   const validatorForm = () => {
     const error = {};
+
     if (!formData.name) {
       error.name = "Name requiered";
     }
@@ -57,25 +61,41 @@ export function PageApi() {
     return Object.keys(error).length === 0;
   };
 
-  const Origins = (origin) => {
+  const Origins = (origin, data) => {
     if(origin === 'creating'){
-      is.creating = true
+      setCreating(true)
       setIsModalOpen(true)
       setProviden('creating') 
     }else if(origin === 'editing'){
-        is.editing = true
+      setEditing(true)
+        edit(data)
         setIsModalOpen(true)
     }
   }
 
+  const edit = (data) => {
+    setFormData({
+      ...formData,
+      name: data.name,
+      category: data.category,
+      color: data.color,
+      price: data.price,
+    });
+    setid(data.id);
+  }
+
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
+
     if (validatorForm()) {
-      if (is.creating === true) {
+      if (creating === true) {
+        alert("Usuario registrado");
         CreateClient(formData);
-      } else if (is.editing === true) {
+      } else if (editing === true) {
+        alert("Usuario editado");
+        EditClient(formData, id)
      }
-      alert("Usuario registrado");
+     
     } else {
       alert("El usuario no se pudo registrar");
     }
@@ -85,7 +105,7 @@ export function PageApi() {
     <div>
       <ContainerLayaout />
       <div className="overflow-x-auto">
-      <button onClick={() => Origins('creating') } class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear</button>
+      <button onClick={() => Origins('creating',0) } class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear</button>
         <table className="mt-6 min-w-full border-collapse border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
@@ -106,8 +126,8 @@ export function PageApi() {
                 <td className="border border-gray-300 px-4 py-2">{c.category}</td>
                 <td className="border border-gray-300 px-4 py-2">{c.price}</td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <button className="m-2" onClick={() => setIsModalOpen(true)}>Edit</button>
-                  <button>Delete</button>
+                  <button className="m-2" onClick={() => [Origins('editing', c) ]}>Edit</button>
+                  <button onClick={() =>  DeleteCliente(c.id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -121,7 +141,7 @@ export function PageApi() {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
         formData={formData}
-        origins={ providen}
+        origins={  providen}
         handleChange={handleChange}
       />
     </div>

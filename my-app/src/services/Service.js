@@ -32,3 +32,40 @@ export function CreateClient(data) {
         postData();
     return null;
 }
+
+export function EditClient(data, id) {
+    const postData = async () => {
+        try{
+            const response = fetch(`https://localhost:7271/api/Values?id=${id}`, {
+                method : "PUT",
+                headers : {
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify(data),
+                id : id
+            })
+            const responseData = (await response).json
+            alert(responseData)
+        }
+        catch (error) {
+            console.log('error al insertar los datos', error);
+        }
+    }
+    postData();
+    return null
+}
+
+export function DeleteClient(id) {
+    const deleteData = async () => {
+        try {
+            const response = await fetch(`https://localhost:7271/api/Values?id=${id}`, {
+                method: "DELETE"
+            });
+            const responseData = await response.json();
+            console.log(responseData);
+        } catch (error) {
+            console.log('Error al eliminar los datos', error);
+        }
+    };
+    deleteData();
+}
