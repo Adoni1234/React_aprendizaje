@@ -69,3 +69,49 @@ export function DeleteClient(id) {
     };
     deleteData();
 }
+
+export async function authLogin(data) {
+    try {
+        const response = await fetch('https://localhost:7271/api/login/auth', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+            throw new Error('Error en la solicitud: ' + response.status);
+        }
+
+        const responseData = await response.json();
+        return responseData;
+    } catch (error) {
+        console.log(error);
+        throw new Error('Hubo un error en la autenticación: ' + error.message);
+    }
+}
+
+export async function register(data){
+    try{
+       const response = await fetch('https://localhost:7271/api/login/register', {
+        method : "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body : JSON.stringify(data)
+       })
+       
+       if(!response.ok){
+        throw new Error('Error en la solicitud: ' + response.status)
+       }
+
+      const responseData = (await response).json();
+      return responseData
+       
+    }
+    catch (error) {
+        console.log(error)
+        throw new Error('Hubo un error en la autenticación: ' + error.message)
+    }
+}

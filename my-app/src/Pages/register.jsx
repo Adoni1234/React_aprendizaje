@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SetSessionStore } from "../components/utilis/Utilitis";
+import { register } from "../services/Service";
 
 export function Register() {
     const [FormData, setFormData] = useState({
@@ -42,22 +43,26 @@ export function Register() {
      return Object.keys(error).length === 0
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-
         if(ValidateForm()){
-          if(confirmarContraseña === FormData.password) {
-            SetSessionStore(FormData, 'login')
-            window.location.href = '/';
-            alert('Registro Exitoso')
-          }else{
-            alert('password diferentes') 
-          }
+          const respose = await register(FormData)
+           try{
+             if(respose.data){
+              window.location.href = '/';
+              alert('Registro Exitoso')
+             } else {
+              alert('Usuario inválido');
+            }
+           }
+           catch (error){
+            console.log(error);
+            alert('Hubo un error en la autenticación');
+           }
         }else{
             alert('Formulario Invalidos')
         }
     }
-
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
