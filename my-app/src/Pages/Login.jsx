@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { authLogin } from "../services/Service";
-import { SetSessionStore } from "../components/utilis/Utilitis";
+import { get_session_login } from "../components/utilis/Utilitis";
 
 export function Login() {
      
@@ -38,27 +37,20 @@ export function Login() {
         return Object.keys(error).length === 0
     }
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      if (ValidateFormData()) {
-        const response = await authLogin(FormData);
-          try {
-              if (response.username) { 
-                  SetSessionStore(response, 'login')
-                  window.location.href = 'home';
-              } else {
-                  alert('Usuario inválido');
-              }
-          } catch (error) {
-              console.log(error);
-              alert('Hubo un error en la autenticación');
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+       const Session =  get_session_login()
+        if(ValidateFormData()){
+          if(Session[0] === FormData.username && Session[1] === FormData.password){
+            alert('Datos Validos')
+            window.location.href = 'home'
+          }else{
+            alert('Datos invalidos')
           }
-      } else {
-          alert('Datos inválidos');
-      }
-  }
-  
-    
+        }else{
+            alert('formulario invalido')
+        }
+    }
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
